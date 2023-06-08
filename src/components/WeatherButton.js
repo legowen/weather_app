@@ -5,7 +5,7 @@ const WeatherButton = ({ cities , setCity }) => {
     // received Array through props
   return (
     <div>
-        <Button variant="warning">Current Location</Button>
+        <Button variant="warning" >Current Location</Button>
         
         {cities.map((item, index) => (
             <Button

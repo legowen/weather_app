@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const WeatherBox = ({ weather }) => {
     
     console.log(weather?.weather)

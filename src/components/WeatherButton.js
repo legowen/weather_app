@@ -1,21 +1,26 @@
 import React from 'react'
 import { Button } from 'react-bootstrap';
 
-const WeatherButton = ({ cities , setCity }) => { 
+const WeatherButton = ({ cities , selectedCity, handleCityChange }) => { 
     // received Array through props
   return (
-    <div>
-        <Button variant="warning" >Current Location</Button>
+    <div className="menu-container">
+        <Button 
+            variant={`${selectedCity == null ? "outline-warning" : "warning"}`} 
+            onClick={() => handleCityChange("current")}>
+                Current Location
+        </Button>
         
-        {cities.map((item, index) => (
-            <Button
-                    variant="warning" key = {index} onClick = { ()=> setCity(item) } >
-                {item} 
-            </Button> // Create Buttons through the Array
+            {cities.map((city) => (
+        <Button
+            variant={`${selectedCity == city ? "outline-warning" : "warning"}`} 
+            onClick = { ()=> handleCityChange(city) } >
+                {city} 
+        </Button> // Create Buttons through the Array
                      // <WeatherButton does not have any of state, All from the App.js(Parents), When Click the button, It will get the city state from App.js
         ))}
     </div>
-  )
-}
+  );
+};
 
 export default WeatherButton

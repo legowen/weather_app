@@ -1,6 +1,6 @@
 # Simple Weatherapp Project
-<img width='70%' src="https://github.com/legowen/Portfolio/blob/main/img/Phonebook.png?raw=true"/>
-* Demo: <img width='70%' src="https://github.com/legowen/Portfolio/blob/main/img/weatherapp.png?raw=true"/>
+<img width='70%' src="https://github.com/legowen/Portfolio/blob/main/img/weatherapp.png?raw=true"/>
+* Demo: https://hopenorain.netlify.app
 
 ## Tech
 * React

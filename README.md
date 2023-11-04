@@ -3,8 +3,8 @@
 * Demo: https://hopenorain.netlify.app
 
 ## Tech
-* React
-* React Bootstrap
+![React](https://img.shields.io/badge/-React-222222?style=for-the-badge&logo=react)
+![Bootstrap](https://img.shields.io/badge/-Bootstrap-purple?style=for-the-badge&logo=Bootstrap)
 
 ## Function
 * Able to see the weather through the GPS

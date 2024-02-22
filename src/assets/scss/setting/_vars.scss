@@ -1,0 +1,53 @@
+// vars
+:root {
+    --mainfont-nanum: "nanumSquareNeo";
+    --mainfont-nexon: "nexonLv1";
+  
+    --black: #000;
+    --white: #fff;
+  
+    // Font Set
+    font-family: var(--mainfont-nanum), var(--mainfont-nexon);
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+  
+    // Font optimization
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+  
+    @media (max-width: 1200px) {
+      font-size: 16px;
+  
+      input {
+        font-size: 16px;
+      }
+    }
+  
+    @media (max-width: 1000px) {
+      font-size: 14px;
+  
+      input {
+        font-size: 14px;
+      }
+    }
+  
+    @media (max-width: 800px) {
+      font-size: 12px;
+  
+      input {
+        font-size: 12px;
+      }
+    }
+  
+    @media (max-width: 600px) {
+      font-size: 10px;
+  
+      input {
+        font-size: 10px;
+      }
+    }
+  }

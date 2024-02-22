@@ -1,111 +1,78 @@
-import { useEffect , useState } from "react"
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import  {Container}  from "react-bootstrap";
-import WeatherBox from "./components/WeatherBox";
-import WeatherButton from "./components/WeatherButton";
-import ClipLoader from "react-spinners/ClipLoader";
-
-
-// 1. When start the app, UI display current location's weather info
-// 2. In the box : location, C, F and weather status showing up
-// 3. bottom button = 5 buttons (1 for current location, 4 are optional)
-// 4. When click each city = Desplay the each city's weather
-// 5. If click the current location button, It will be back to current location's weather
-// 6. During download data = loading spinner display on the UI 
-
-const cities = ['seoul', 'new york', 'toronto', 'Los Angeles'] // Created Array - cities
-const API_KEY = process.env.REACT_APP_API_KEY;
+import React from "react";
+import { useEffect } from "react";
+// React-Redux
+import { useDispatch, useSelector } from "react-redux";
+// React-Redux-Action
+import { getWeatherByCurrentLocationAction } from "./redux/actions/getWeatherByCurrentLocationAction";
+import { getForecastByCurrentLocationAction } from "./redux/actions/getForecastByCurrentLocationAction";
+import { getWeatherByCityAction } from "./redux/actions/getWeatherByCityAction";
+import { getForecastByCityAction } from "./redux/actions/getForecastByCityAction";
+// Components
+import Error from "./components/Error/Error";
+import Header from "./components/section/Header";
+import Main from "./components/section/Main";
+import Footer from "./components/section/Footer";
 
 const App = () => {
+  const dispatch = useDispatch();
 
-  const [weather, setWeather] = useState(null); 
+  const error = useSelector((state) => state.error.error);
+  const city = useSelector((state) => state.city.city);
 
-  const [city, setCity] = useState('');
-
-  const [loading,setLoading] = useState(false);
-
-  const [apiError, setAPIError] = useState("");
-
-  
-
+  // 1. Get User's current location
   const getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition( (position) => {
-        let lat = position.coords.latitude //latitude
-        let lon = position.coords.longitude //longtitude
-        getWeatherByCurrentLocation(lat,lon)
-    } );
+    navigator.geolocation.getCurrentPosition((position) => {
+      let { latitude, longitude } = position.coords;
+
+      getWeatherByCurrentLocation(latitude, longitude);
+      getForecastByCurrentLocation(latitude, longitude);
+    });
   };
 
-  const getWeatherByCurrentLocation = async(lat,lon) => {
-    try{
-      let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=7b0375d4c3f10507973fdbf77c54c60e&units=metric`;
-      setLoading(true)
-      let response = await fetch(url);
-      let data = await response.json();
-
-      setWeather(data);
-      setLoading(false)
-    } catch (error) {
-      setAPIError(error.message);
-      setLoading(false);
-    }
+  // 1.1 현재위치 기반 API 호출
+  const getWeatherByCurrentLocation = (latitude, longitude) => {
+    dispatch(getWeatherByCurrentLocationAction.weatherByCurrentLocation(latitude, longitude));
   };
 
-  const getWeatherByCity = async () => {
-    try{
-      let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=7b0375d4c3f10507973fdbf77c54c60e&units=metric`
-      setLoading(true)
-      let response = await fetch(url);
-      let data = await response.json();
+  // 1.2 현재위치 기반 5일치 예보 API 호출
+  const getForecastByCurrentLocation = (latitude, longitude) => {
+    dispatch(getForecastByCurrentLocationAction.forecastByCurrentLocation(latitude, longitude));
+  };
 
-      setWeather(data);
-      setLoading(false);
-    } catch (error){
-      setAPIError(error.message);
-      setLoading(false);
+  // 2.1 도시이름 기반 API 호출
+  const getWeatherByCity = () => {
+    dispatch(getWeatherByCityAction.weatherByCity(city));
+  };
+
+  // 2.2 도시이름 기반 5일치 예보 API 호출
+  const getForecastByCity = async () => {
+    dispatch(getForecastByCityAction.forecastByCity(city));
+  };
+
+  useEffect(() => {
+    if (city === null) {
+      getCurrentLocation();
+    } else {
+      getWeatherByCity();
+      getForecastByCity();
     }
+  }, [city]);
+
+  // error
+  if (error) {
+    return <Error />;
   }
 
-  useEffect( () => {
-    if (city == ""){
-      getCurrentLocation()
-    } else {
-      getWeatherByCity()
-    }
-  },[city]); // useEffect = Component did update, State를 주시하다 바뀌면 호출해줌
-
-  const handleCityChange = (city) => {
-    if (city === "current") {
-      setCity(null);
-    } else {
-      setCity(city);
-    }
-  };
-
-
-
   return (
-    <>
-      <Container className="vh-100">
-        {loading ? (
-          <div className="w-100 vh-100 d-flex justify-content-center align-items-center">
-            <ClipLoader color="#f86c6b" size={150} loading={loading} />
-          </div>
-        ) : !apiError ? (
-          <div className="main-container">
-            <WeatherBox weather={weather} />
-            <WeatherButton
-              cities={cities}
-              handleCityChange={handleCityChange}
-              selectedCity={city}
-            />
-          </div>
-        ) : (
-          apiError
-        )}
-      </Container>
-    </>
+    <div className="App">
+      <div className="AppCover">
+        <div className="Wrapper">
+          <Header />
+          <Main />
+        </div>
+        <Footer />
+      </div>
+    </div>
   );
 };
 

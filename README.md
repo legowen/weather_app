@@ -58,6 +58,16 @@ Demo : https://hopenorain.netlify.app
 
 ## Running and Finishing the Project
 
+This app calls the OpenWeatherMap API. The API key is not stored in this repository.
+
+1. Get a free key at https://openweathermap.org/api.
+2. Copy `.env.example` to `.env.local` and paste the key after `REACT_APP_OPENWEATHER_API_KEY=`.
+3. Run `npm install`, then `npm start`.
+
+For a deployed copy, add the same variable (`REACT_APP_OPENWEATHER_API_KEY`) in the hosting settings and rebuild. A browser app sends its key with every request, so use a free-tier key and replace it if it is ever misused.
+
+Notes from the original setup:
+
 - Install React: `npx create-react-app title` || `create-react-app .(current folder)`
 - Install Styled-Components:  `npm install styled-components`
 - Create files for deployment environment: `npm run build`
@@ -100,7 +110,7 @@ Demo : https://hopenorain.netlify.app
       try {
         dispatch({ type: "LOADING" });
 
-        let url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=f497d00bd8c5301f301474a97dfbfba3&units=metric`;
+        let url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}&units=metric`;
         let response = await fetch(url);
         let data = await response.json();
 
@@ -257,7 +267,7 @@ Demo : https://hopenorain.netlify.app
       try {
         dispatch({ type: "LOADING" });
   
-        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=f497d00bd8c5301f301474a97dfbfba3&units=metric`;
+        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}&units=metric`;
         let response = await fetch(url);
         let data = await response.json();
   

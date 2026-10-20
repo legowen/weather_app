@@ -3,7 +3,7 @@ function weatherByCurrentLocation(latitude, longitude) {
       try {
         dispatch({ type: "LOADING" });
   
-        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=f497d00bd8c5301f301474a97dfbfba3&units=metric`;
+        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}&units=metric`;
         let response = await fetch(url);
         let data = await response.json();
   
